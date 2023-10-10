@@ -139,7 +139,7 @@ def handle_button(pin):
 
     elif label == 'B':
         # Code to execute when button B is pressed
-        process = subprocess.Popen(["python3", /home/pi/PiLogger/weatherhat-python/examples/weather.py])
+        process = subprocess.Popen(["python3", "/home/pi/PiLogger/weatherhat-python/examples/weather.py"])
         # Wait for 10 seconds
         time.sleep(10)
         # Terminate the process after 30 seconds
