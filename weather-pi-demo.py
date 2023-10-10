@@ -22,11 +22,7 @@ import weatherhat
 from weatherhat import history
 
 # Define the path to the other script
-other_script_path = "/Home/pi/weatherhat-python/examples/weather.py"
-
-def handle_button_press():
-    # Run the other script when a button is pressed
-    subprocess.run(["python3", other_script_path])
+other_script_path = "weather.py"
 
 FPS = 10
 
@@ -75,6 +71,16 @@ disp.display(img)
 try:
     while True:
         pass
+
+import signal
+import RPi.GPIO as GPIO
+
+print("""buttons.py - Detect which button has been pressed
+This example should demonstrate how to:
+1. set up RPi.GPIO to read buttons,
+2. determine which button has been pressed
+Press Ctrl+C to exit!
+""")
 
 # The buttons on Weather HAT are connected to pins 5, 6, 16 and 24
 BUTTONS = [5, 6, 16, 24]
