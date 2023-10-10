@@ -22,14 +22,8 @@ import weatherhat
 from weatherhat import history
 
 ## Definitions
-# The buttons on Weather HAT are connected to pins 5, 6, 16 and 24
-BUTTONS = [5, 6, 16, 24]
-
-# These correspond to buttons A, B, X and Y respectively
-LABELS = ['A', 'B', 'X', 'Y']
-
 # Define the path to the other script
-other_script_path = "weatherhat-python/examples/weather.py"
+other_script_path = "weather.py"
 
 # Adjust this value based on your needs
 # -17.5oC is an estimated error of having the HAT attached directly to the RPi that gets hot when turned on
@@ -85,19 +79,6 @@ try:
 
 except KeyboardInterrupt:
     print("Data collection stopped.")
-
-# Set up RPi.GPIO with the "BCM" numbering scheme
-GPIO.setmode(GPIO.BCM)
-
-# Buttons connect to ground when pressed, so we should set them up
-# with a "PULL UP", which weakly pulls the input signal to 3.3V.
-GPIO.setup(BUTTONS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-
-# Loop through out buttons and attach the "handle_button" function to each
-# We're watching the "FALLING" edge (transition from 3.3V to Ground) and
-# picking a generous bouncetime of 100ms to smooth out button presses.
-for pin in BUTTONS:
-    GPIO.add_event_detect(pin, GPIO.FALLING, handle_button, bouncetime=100)
 
 # "handle_button" will be called every time a button is pressed
 # It receives one argument: the associated input pin.
@@ -167,8 +148,8 @@ def handle_button(pin):
     elif label == 'B':
         # Code to execute when button X is pressed
         process = subprocess.Popen(["python3", other_script_path])
-        # Wait for 30 seconds
-        time.sleep(30)
+        # Wait for 10 seconds
+        time.sleep(10)
         # Terminate the process after 30 seconds
         process.terminate()
 
@@ -179,3 +160,35 @@ def handle_button(pin):
         # Code to execute when button Y is pressed
         # Turn off backlight on Press Y
         disp.set_backlight(0)
+
+    elif label == 'X':
+        # Code to execute when button X is pressed
+        # Turn off backlight on Press X
+        disp.set_backlight(12)
+
+# The buttons on Weather HAT are connected to pins 5, 6, 16 and 24
+BUTTONS = [5, 6, 16, 24]
+
+# These correspond to buttons A, B, X and Y respectively
+LABELS = ['A', 'B', 'X', 'Y']
+
+# Set up RPi.GPIO with the "BCM" numbering scheme
+GPIO.setmode(GPIO.BCM)
+
+# Buttons connect to ground when pressed, so we should set them up
+# with a "PULL UP", which weakly pulls the input signal to 3.3V.
+GPIO.setup(BUTTONS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+# Loop through out buttons and attach the "handle_button" function to each
+# We're watching the "FALLING" edge (transition from 3.3V to Ground) and
+# picking a generous bouncetime of 100ms to smooth out button presses.
+for pin in BUTTONS:
+    GPIO.add_event_detect(pin, GPIO.FALLING, handle_button, bouncetime=100)
+
+# Keep running.
+try:
+    while True:
+        pass
+
+except KeyboardInterrupt:
+    print("Data collection stopped.")
