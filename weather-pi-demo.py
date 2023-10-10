@@ -112,30 +112,9 @@ def handle_button(pin):
                 csvwriter = csv.writer(csvfile)
                 csvwriter.writerow(['Date','Time','Compensated Temperature','Uncompensated Temperature','Relative Humidity', 'Humidity', 'Pressure','Light (Lux)'])
 
-        # Data collection loop
-        try:
-            while True:
-                sensor.temperature_offset = OFFSET
-                sensor.update(interval=60.0) # This can be adjusted (in seconds) to meet your needs. Note: you must also adjust the time.sleep on line 51
-                timestamp = datetime.now()
-                
-                with open(file_path, mode="a", newline="") as csv_file:
-                    csv_writer = csv.writer(csv_file)
-                    csv_writer.writerow([
-                    timestamp.strftime("%Y-%m-%d"),
-                        timestamp.strftime("%H:%M:%S"),
-                        sensor.temperature,
-                        sensor.device_temperature,
-                        sensor.relative_humidity,
-                        sensor.humidity,
-                        sensor.pressure,
-                        sensor.lux
-                    ])
-                print("Data collected")
-                time.sleep(60.0)
-                
-        except KeyboardInterrupt:
-            print("Data collection stopped.")
+
+
+
 
     elif label == 'B':
         # Code to execute when button B is pressed
