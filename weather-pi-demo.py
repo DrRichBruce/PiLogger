@@ -21,12 +21,12 @@ from PIL import Image, ImageDraw, ImageFont
 import weatherhat
 from weatherhat import history
 
-## Definitions
-# Adjust this value based on your needs
-# -17.5oC is an estimated error of having the HAT attached directly to the RPi that gets hot when turned on
-OFFSET = 0 # Note: this is an estimate, you may need to adjust this value based on your needs
-
 while True:
+    ## Definitions
+    # Adjust this value based on your needs
+    # -17.5oC is an estimated error of having the HAT attached directly to the RPi that gets hot when turned on
+    OFFSET = 0 # Note: this is an estimate, you may need to adjust this value based on your needs
+
     # Display settings
     FPS = 10
     
@@ -169,4 +169,5 @@ while True:
     for pin in BUTTONS:
         GPIO.add_event_detect(pin, GPIO.FALLING, handle_button, bouncetime=100)
     
-    pass
+    print("New loop")
+    time.sleep(60.0)
