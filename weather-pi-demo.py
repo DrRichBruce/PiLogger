@@ -72,9 +72,6 @@ try:
     while True:
         pass
 
-import signal
-import RPi.GPIO as GPIO
-
 print("""buttons.py - Detect which button has been pressed
 This example should demonstrate how to:
 1. set up RPi.GPIO to read buttons,
