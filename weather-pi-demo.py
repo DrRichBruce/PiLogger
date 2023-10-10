@@ -55,12 +55,12 @@ img = Image.new('RGB', (WIDTH, HEIGHT), color=(0, 0, 0))
 draw = ImageDraw.Draw(img)
 
 # Text settings.
-font_size = 10
+font_size = 15
 font = ImageFont.truetype(UserFont, font_size)
 text_colour = (255, 255, 255)
 back_colour = (0, 170, 170)
 
-message = "Press A to start data collection. \nTurn off to stop data collection. \nPress X to display weather data for 30 seconds. \nPress Y to turn off screen and save battery."
+message = "Press A to start data collection. \nTurn off to stop data collection. \nPress B to display weather data for 30 seconds. \nPress Y to turn off screen and save battery."
 size_x, size_y = draw.textsize(message, font)
 
 # Calculate text position
@@ -92,6 +92,16 @@ GPIO.setmode(GPIO.BCM)
 # Buttons connect to ground when pressed, so we should set them up
 # with a "PULL UP", which weakly pulls the input signal to 3.3V.
 GPIO.setup(BUTTONS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+# Loop through out buttons and attach the "handle_button" function to each
+# We're watching the "FALLING" edge (transition from 3.3V to Ground) and
+# picking a generous bouncetime of 100ms to smooth out button presses.
+for pin in BUTTONS:
+    GPIO.add_event_detect(pin, GPIO.FALLING, handle_button, bouncetime=100)
+
+# Finally, since button handlers don't require a "while True" loop,
+# we pause the script to prevent it exiting immediately.
+signal.pause()
 
 # "handle_button" will be called every time a button is pressed
 # It receives one argument: the associated input pin.
@@ -157,27 +167,19 @@ def handle_button(pin):
 
         except KeyboardInterrupt:
             print("Data collection stopped.")
+
     elif label == 'B':
-        # Code to execute when button B is pressed
-        print("Button B pressed")
-    elif label == 'X':
         # Code to execute when button X is pressed
         process = subprocess.Popen(["python3", other_script_path])
         # Wait for 30 seconds
         time.sleep(30)
         # Terminate the process after 30 seconds
         process.terminate()
+
+        message = "Press A to start data collection. \nTurn off to stop data collection. \nPress B to display weather data for 30 seconds. \nPress Y to turn off screen and save battery."
+        size_x, size_y = draw.textsize(message, font)
+
     elif label == 'Y':
         # Code to execute when button Y is pressed
         # Turn off backlight on Press Y
         disp.set_backlight(0)
-
-# Loop through out buttons and attach the "handle_button" function to each
-# We're watching the "FALLING" edge (transition from 3.3V to Ground) and
-# picking a generous bouncetime of 100ms to smooth out button presses.
-for pin in BUTTONS:
-    GPIO.add_event_detect(pin, GPIO.FALLING, handle_button, bouncetime=100)
-
-# Finally, since button handlers don't require a "while True" loop,
-# we pause the script to prevent it exiting immediately.
-signal.pause()
