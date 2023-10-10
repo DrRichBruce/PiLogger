@@ -72,14 +72,6 @@ draw.rectangle((0, 0, WIDTH, HEIGHT), back_colour)
 draw.text((x, y), message, font=font, fill=text_colour)
 disp.display(img)
 
-# Keep running.
-try:
-    while True:
-        pass
-
-except KeyboardInterrupt:
-    print("Data collection stopped.")
-
 # "handle_button" will be called every time a button is pressed
 # It receives one argument: the associated input pin.
 def handle_button(pin):
