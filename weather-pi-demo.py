@@ -70,7 +70,8 @@ while True:
     draw.rectangle((0, 0, WIDTH, HEIGHT), back_colour)
     draw.text((x, y), message, font=font, fill=text_colour)
     disp.display(img)
-    pass
+    
+    signal.pause()
     
 # The buttons on Weather HAT are connected to pins 5, 6, 16 and 24
 BUTTONS = [5, 6, 16, 24]
