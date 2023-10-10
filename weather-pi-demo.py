@@ -23,7 +23,7 @@ from weatherhat import history
 
 ## Definitions
 # Define the path to the other script
-other_script_path = "weather.py"
+other_script_path = "weatherhat-python/examples/weather.py"
 
 # Adjust this value based on your needs
 # -17.5oC is an estimated error of having the HAT attached directly to the RPi that gets hot when turned on
@@ -98,10 +98,6 @@ GPIO.setup(BUTTONS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 # picking a generous bouncetime of 100ms to smooth out button presses.
 for pin in BUTTONS:
     GPIO.add_event_detect(pin, GPIO.FALLING, handle_button, bouncetime=100)
-
-# Finally, since button handlers don't require a "while True" loop,
-# we pause the script to prevent it exiting immediately.
-signal.pause()
 
 # "handle_button" will be called every time a button is pressed
 # It receives one argument: the associated input pin.
