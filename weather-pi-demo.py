@@ -26,50 +26,52 @@ from weatherhat import history
 # -17.5oC is an estimated error of having the HAT attached directly to the RPi that gets hot when turned on
 OFFSET = 0 # Note: this is an estimate, you may need to adjust this value based on your needs
 
-# Display settings
-FPS = 10
-
-SPI_SPEED_MHZ = 80
-
-# Create LCD class instance.
-disp = ST7789.ST7789(
+while True:
+    # Display settings
+    FPS = 10
+    
+    SPI_SPEED_MHZ = 80
+    
+    # Create LCD class instance.
+    disp = ST7789.ST7789(
     rotation=90,
     port=0,
     cs=1,
     dc=9,
     backlight=12,
     spi_speed_hz=SPI_SPEED_MHZ * 1000 * 1000
-)
-
-# Initialize display.
-disp.begin()
-
-# Width and height to calculate text position.
-WIDTH = disp.width
-HEIGHT = disp.height
-
-# New canvas to draw on.
-img = Image.new('RGB', (WIDTH, HEIGHT), color=(0, 0, 0))
-draw = ImageDraw.Draw(img)
-
-# Text settings.
-font_size = 15
-font = ImageFont.truetype(UserFont, font_size)
-text_colour = (255, 255, 255)
-back_colour = (0, 170, 170)
-
-message = "A: Record data. \nTurn off to stop. \nB: Display data (30 secs). \nY: Energy saving mode."
-size_x, size_y = draw.textsize(message, font)
-
-# Calculate text position
-x = (WIDTH - size_x) / 2
-y = (HEIGHT / 2) - (size_y / 2)
-
-# Draw background rectangle and write text.
-draw.rectangle((0, 0, WIDTH, HEIGHT), back_colour)
-draw.text((x, y), message, font=font, fill=text_colour)
-disp.display(img)
-
+    )
+    
+    # Initialize display.
+    disp.begin()
+    
+    # Width and height to calculate text position.
+    WIDTH = disp.width
+    HEIGHT = disp.height
+    
+    # New canvas to draw on.
+    img = Image.new('RGB', (WIDTH, HEIGHT), color=(0, 0, 0))
+    draw = ImageDraw.Draw(img)
+    
+    # Text settings.
+    font_size = 15
+    font = ImageFont.truetype(UserFont, font_size)
+    text_colour = (255, 255, 255)
+    back_colour = (0, 170, 170)
+    
+    message = "A: Record data. \nTurn off to stop. \nB: Display data (30 secs). \nY: Energy saving mode."
+    size_x, size_y = draw.textsize(message, font)
+    
+    # Calculate text position
+    x = (WIDTH - size_x) / 2
+    y = (HEIGHT / 2) - (size_y / 2)
+    
+    # Draw background rectangle and write text.
+    draw.rectangle((0, 0, WIDTH, HEIGHT), back_colour)
+    draw.text((x, y), message, font=font, fill=text_colour)
+    disp.display(img)
+    pass
+    
 # The buttons on Weather HAT are connected to pins 5, 6, 16 and 24
 BUTTONS = [5, 6, 16, 24]
 
@@ -137,3 +139,29 @@ def handle_button(pin):
         except KeyboardInterrupt:
             print("Data collection stopped.")
 
+    elif label == 'B':
+        # Code to execute when button B is pressed
+        process = subprocess.Popen(["python3", "/home/pi/PiLogger/weatherhat-python/examples/weather.py"])
+        # Wait for 10 seconds
+        time.sleep(10)
+        # Terminate the process after 30 seconds
+        process.terminate()
+
+        message = "A: Record data. Turn off to stop. \nB: Display data (30 secs). \nY: Energy saving mode."
+        size_x, size_y = draw.textsize(message, font)
+        
+    elif label == 'Y':
+        # Code to execute when button Y is pressed
+        # Turn off backlight on Press Y
+        disp.set_backlight(0)
+        
+    elif label == 'X':
+        # Code to execute when button X is pressed
+        # Turn off backlight on Press X
+        disp.set_backlight(12)
+        
+# Loop through out buttons and attach the "handle_button" function to each
+# We're watching the "FALLING" edge (transition from 3.3V to Ground) and
+# picking a generous bouncetime of 100ms to smooth out button presses.
+for pin in BUTTONS:
+    GPIO.add_event_detect(pin, GPIO.FALLING, handle_button, bouncetime=100)
