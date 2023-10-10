@@ -22,9 +22,6 @@ import weatherhat
 from weatherhat import history
 
 ## Definitions
-# Define the path to the other script
-other_script_path = "weather.py"
-
 # Adjust this value based on your needs
 # -17.5oC is an estimated error of having the HAT attached directly to the RPi that gets hot when turned on
 OFFSET = 0 # Note: this is an estimate, you may need to adjust this value based on your needs
@@ -71,6 +68,19 @@ y = (HEIGHT / 2) - (size_y / 2)
 draw.rectangle((0, 0, WIDTH, HEIGHT), back_colour)
 draw.text((x, y), message, font=font, fill=text_colour)
 disp.display(img)
+
+# The buttons on Weather HAT are connected to pins 5, 6, 16 and 24
+BUTTONS = [5, 6, 16, 24]
+
+# These correspond to buttons A, B, X and Y respectively
+LABELS = ['A', 'B', 'X', 'Y']
+
+# Set up RPi.GPIO with the "BCM" numbering scheme
+GPIO.setmode(GPIO.BCM)
+
+# Buttons connect to ground when pressed, so we should set them up
+# with a "PULL UP", which weakly pulls the input signal to 3.3V.
+GPIO.setup(BUTTONS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 # "handle_button" will be called every time a button is pressed
 # It receives one argument: the associated input pin.
@@ -138,29 +148,12 @@ def handle_button(pin):
         # Turn off backlight on Press X
         disp.set_backlight(12)
 
-# The buttons on Weather HAT are connected to pins 5, 6, 16 and 24
-BUTTONS = [5, 6, 16, 24]
-
-# These correspond to buttons A, B, X and Y respectively
-LABELS = ['A', 'B', 'X', 'Y']
-
-# Set up RPi.GPIO with the "BCM" numbering scheme
-GPIO.setmode(GPIO.BCM)
-
-# Buttons connect to ground when pressed, so we should set them up
-# with a "PULL UP", which weakly pulls the input signal to 3.3V.
-GPIO.setup(BUTTONS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-
 # Loop through out buttons and attach the "handle_button" function to each
 # We're watching the "FALLING" edge (transition from 3.3V to Ground) and
 # picking a generous bouncetime of 100ms to smooth out button presses.
 for pin in BUTTONS:
     GPIO.add_event_detect(pin, GPIO.FALLING, handle_button, bouncetime=100)
 
-# Keep running.
-try:
-    while True:
-        pass
-
-except KeyboardInterrupt:
-    print("Data collection stopped.")
+# Finally, since button handlers don't require a "while True" loop,
+# we pause the script to prevent it exiting immediately.
+signal.pause()
