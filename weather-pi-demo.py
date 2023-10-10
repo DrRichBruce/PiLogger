@@ -91,6 +91,14 @@ def handle_button(pin):
         print("Button press detected on pin: {} label: {}".format(pin, label))
         message = "Data collection started! \nTurn off to stop. \nY: Energy saving mode"
         
+        # Redraw the screen with the new message
+        size_x, size_y = draw.textsize(message, font)
+        x = (WIDTH - size_x) / 2
+        y = (HEIGHT / 2) - (size_y / 2)
+        draw.rectangle((0, 0, WIDTH, HEIGHT), back_colour)
+        draw.text((x, y), message, font=font, fill=text_colour)
+        disp.display(img)
+        
         # Create a WeatherHat instance
         sensor = weatherhat.WeatherHAT() 
 
