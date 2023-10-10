@@ -21,8 +21,13 @@ from PIL import Image, ImageDraw, ImageFont
 import weatherhat
 from weatherhat import history
 
+## Definitions
 # Define the path to the other script
 other_script_path = "weather.py"
+
+# Adjust this value based on your needs
+# -17.5oC is an estimated error of having the HAT attached directly to the RPi that gets hot when turned on
+OFFSET = 0 # Note: this is an estimate, you may need to adjust this value based on your needs
 
 FPS = 10
 
@@ -72,12 +77,8 @@ try:
     while True:
         pass
 
-print("""buttons.py - Detect which button has been pressed
-This example should demonstrate how to:
-1. set up RPi.GPIO to read buttons,
-2. determine which button has been pressed
-Press Ctrl+C to exit!
-""")
+except KeyboardInterrupt:
+    print("Data collection stopped.")
 
 # The buttons on Weather HAT are connected to pins 5, 6, 16 and 24
 BUTTONS = [5, 6, 16, 24]
@@ -97,11 +98,6 @@ GPIO.setup(BUTTONS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 def handle_button(pin):
     label = LABELS[BUTTONS.index(pin)]
     if label == 'A':
-        # Code to execute when button A is pressed
-        # Adjust this value based on your needs
-        # -17.5oC is an estimated error of having the HAT attached directly to the RPi that gets hot when turned on
-        OFFSET = 0 # Note: this is an estimate, you may need to adjust this value based on your needs
-
         # Create a WeatherHat instance
         sensor = weatherhat.WeatherHAT() 
 
