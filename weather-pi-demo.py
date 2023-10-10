@@ -133,7 +133,7 @@ def handle_button(pin):
 
                 time.sleep(60.0)
 
-        print("Well done, data collection has started! Press CTRL+C or turn device off to stop recording.")
+            print("Well done, data collection has started! Press CTRL+C or turn device off to stop recording.")
 
         except KeyboardInterrupt:
             print("Data collection stopped.")
