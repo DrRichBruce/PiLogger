@@ -170,4 +170,4 @@ while True:
         GPIO.add_event_detect(pin, GPIO.FALLING, handle_button, bouncetime=100)
     
     print("New loop")
-    time.sleep(1.0)
+    pass
