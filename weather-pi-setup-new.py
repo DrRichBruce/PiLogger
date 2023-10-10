@@ -9,7 +9,7 @@ import sys
 
 # Add your specific directory to Python's search path
 ## if not os.path.exists("weatherhat-python"): # Once the code is finished I will add this back in
-os.system("git clone https://github.com/DrRichBruce/PiLogger.git")
+# os.system("git clone https://github.com/DrRichBruce/PiLogger.git") # You will have already done this step.
 os.system("git clone https://github.com/pimoroni/weatherhat-python.git")
 os.chdir("weatherhat-python")
 os.system("./install.sh")
