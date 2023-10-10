@@ -55,12 +55,12 @@ img = Image.new('RGB', (WIDTH, HEIGHT), color=(0, 0, 0))
 draw = ImageDraw.Draw(img)
 
 # Text settings.
-font_size = 15
+font_size = 18
 font = ImageFont.truetype(UserFont, font_size)
 text_colour = (255, 255, 255)
 back_colour = (0, 170, 170)
 
-message = "Press A to start data collection. \nTurn off to stop data collection. \nPress B to display weather data for 30 seconds. \nPress Y to turn off screen and save battery."
+message = "A: Record data. Turn off to stop. \nB: Display data (30 secs). \nY: Energy saving mode."
 size_x, size_y = draw.textsize(message, font)
 
 # Calculate text position
@@ -143,7 +143,7 @@ def handle_button(pin):
 
                 time.sleep(60.0)
 
-            print("Well done, data collection has started! Press CTRL+C or turn device off to stop recording.")
+            print("Data collection started! \nTurn off to stop. \nY: Energy saving mode")
 
         except KeyboardInterrupt:
             print("Data collection stopped.")
@@ -176,7 +176,7 @@ def handle_button(pin):
         # Terminate the process after 30 seconds
         process.terminate()
 
-        message = "Press A to start data collection. \nTurn off to stop data collection. \nPress B to display weather data for 30 seconds. \nPress Y to turn off screen and save battery."
+        message = "A: Record data. Turn off to stop. \nB: Display data (30 secs). \nY: Energy saving mode."
         size_x, size_y = draw.textsize(message, font)
 
     elif label == 'Y':
