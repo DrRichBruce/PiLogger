@@ -26,6 +26,7 @@ from weatherhat import history
 # -17.5oC is an estimated error of having the HAT attached directly to the RPi that gets hot when turned on
 OFFSET = 0 # Note: this is an estimate, you may need to adjust this value based on your needs
 
+# Display settings
 FPS = 10
 
 SPI_SPEED_MHZ = 80
@@ -87,6 +88,7 @@ GPIO.setup(BUTTONS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 def handle_button(pin):
     label = LABELS[BUTTONS.index(pin)]
     if label == 'A':
+        print("Button press detected on pin: {} label: {}".format(pin, label))
         message = "Data collection started! \nTurn off to stop. \nY: Energy saving mode"
         
         # Create a WeatherHat instance
@@ -123,13 +125,14 @@ def handle_button(pin):
                     ])
 
                 time.sleep(60.0)
-
+                
         except KeyboardInterrupt:
             print("Data collection stopped.")
 
     elif label == 'B':
-        # Code to execute when button X is pressed
-        process = subprocess.Popen(["python3", other_script_path])
+        # Code to execute when button B is pressed
+        
+        process = subprocess.Popen(["python3", "weather.py"])
         # Wait for 10 seconds
         time.sleep(10)
         # Terminate the process after 30 seconds
@@ -137,17 +140,20 @@ def handle_button(pin):
 
         message = "A: Record data. Turn off to stop. \nB: Display data (30 secs). \nY: Energy saving mode."
         size_x, size_y = draw.textsize(message, font)
-
+        pass
+        
     elif label == 'Y':
         # Code to execute when button Y is pressed
         # Turn off backlight on Press Y
         disp.set_backlight(0)
-
+        pass
+        
     elif label == 'X':
         # Code to execute when button X is pressed
         # Turn off backlight on Press X
         disp.set_backlight(12)
-
+        pass
+        
 # Loop through out buttons and attach the "handle_button" function to each
 # We're watching the "FALLING" edge (transition from 3.3V to Ground) and
 # picking a generous bouncetime of 100ms to smooth out button presses.
