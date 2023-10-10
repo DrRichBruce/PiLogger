@@ -22,6 +22,12 @@ import weatherhat
 from weatherhat import history
 
 ## Definitions
+# The buttons on Weather HAT are connected to pins 5, 6, 16 and 24
+BUTTONS = [5, 6, 16, 24]
+
+# These correspond to buttons A, B, X and Y respectively
+LABELS = ['A', 'B', 'X', 'Y']
+
 # Define the path to the other script
 other_script_path = "weatherhat-python/examples/weather.py"
 
@@ -79,12 +85,6 @@ try:
 
 except KeyboardInterrupt:
     print("Data collection stopped.")
-
-# The buttons on Weather HAT are connected to pins 5, 6, 16 and 24
-BUTTONS = [5, 6, 16, 24]
-
-# These correspond to buttons A, B, X and Y respectively
-LABELS = ['A', 'B', 'X', 'Y']
 
 # Set up RPi.GPIO with the "BCM" numbering scheme
 GPIO.setmode(GPIO.BCM)
