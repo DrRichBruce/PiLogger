@@ -133,16 +133,6 @@ def handle_button(pin):
 
                 time.sleep(60.0)
 
-        # New canvas to draw on.
-        img = Image.new('RGB', (WIDTH, HEIGHT), color=(0, 0, 0))
-        draw = ImageDraw.Draw(img)
-
-        # Text settings.
-        font_size = 10
-        font = ImageFont.truetype(UserFont, font_size)
-        text_colour = (255, 255, 255)
-        back_colour = (0, 170, 170)
-
         message = "Well done, data collection has started! \nTurn device off to stop recording. \nPress Y to turn off screen and save battery."
         size_x, size_y = draw.textsize(message, font)
 
