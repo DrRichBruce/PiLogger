@@ -77,6 +77,8 @@ disp.display(img)
 def handle_button(pin):
     label = LABELS[BUTTONS.index(pin)]
     if label == 'A':
+        message = "Data collection started! \nTurn off to stop. \nY: Energy saving mode"
+        
         # Create a WeatherHat instance
         sensor = weatherhat.WeatherHAT() 
 
@@ -111,28 +113,6 @@ def handle_button(pin):
                     ])
 
                 time.sleep(60.0)
-
-            print("Data collection started! \nTurn off to stop. \nY: Energy saving mode")
-
-        except KeyboardInterrupt:
-            print("Data collection stopped.")
-                
-        message = "Well done, data collection has started! \nTurn device off to stop recording. \nPress Y to turn off screen and save battery."
-        size_x, size_y = draw.textsize(message, font)
-
-        # Calculate text position
-        x = (WIDTH - size_x) / 2
-        y = (HEIGHT / 2) - (size_y / 2)
-
-        # Draw background rectangle and write text.
-        draw.rectangle((0, 0, WIDTH, HEIGHT), back_colour)
-        draw.text((x, y), message, font=font, fill=text_colour)
-        disp.display(img)
-
-        # Keep running.
-        try:
-            while True:
-                pass
 
         except KeyboardInterrupt:
             print("Data collection stopped.")
