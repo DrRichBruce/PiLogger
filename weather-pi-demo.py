@@ -99,20 +99,6 @@ def handle_button(pin):
         draw.text((x, y), message, font=font, fill=text_colour)
         disp.display(img)
         
-        # Create a WeatherHat instance
-        sensor = weatherhat.WeatherHAT() 
-
-        # Create csv file for data collection
-        file_path = '/home/pi/weatherdata.csv'
-
-        # Check if the file already exists
-        if not os.path.exists(file_path):
-            # If not, create it and write the header
-            with open(file_path, 'w', newline='') as csvfile:
-                csvwriter = csv.writer(csvfile)
-                csvwriter.writerow(['Date','Time','Compensated Temperature','Uncompensated Temperature','Relative Humidity', 'Humidity', 'Pressure','Light (Lux)'])
-
-
 
 
 
