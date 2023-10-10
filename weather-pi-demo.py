@@ -69,23 +69,23 @@ y = (HEIGHT / 2) - (size_y / 2)
 draw.rectangle((0, 0, WIDTH, HEIGHT), back_colour)
 draw.text((x, y), message, font=font, fill=text_colour)
 disp.display(img)
-    
+
+# The buttons on Weather HAT are connected to pins 5, 6, 16 and 24
+BUTTONS = [5, 6, 16, 24]
+
+# These correspond to buttons A, B, X and Y respectively
+LABELS = ['A', 'B', 'X', 'Y']
+
+# Set up RPi.GPIO with the "BCM" numbering scheme
+GPIO.setmode(GPIO.BCM)
+
+# Buttons connect to ground when pressed, so we should set them up
+# with a "PULL UP", which weakly pulls the input signal to 3.3V.
+GPIO.setup(BUTTONS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
 # "handle_button" will be called every time a button is pressed
 # It receives one argument: the associated input pin.
 def handle_button(pin):
-    # The buttons on Weather HAT are connected to pins 5, 6, 16 and 24
-    BUTTONS = [5, 6, 16, 24]
-    
-    # These correspond to buttons A, B, X and Y respectively
-    LABELS = ['A', 'B', 'X', 'Y']
-    
-    # Set up RPi.GPIO with the "BCM" numbering scheme
-    GPIO.setmode(GPIO.BCM)
-    
-    # Buttons connect to ground when pressed, so we should set them up
-    # with a "PULL UP", which weakly pulls the input signal to 3.3V.
-    GPIO.setup(BUTTONS, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-
     label = LABELS[BUTTONS.index(pin)]
     print("Button press detected on pin: {} label: {}".format(pin, label))
     if label == 'A':
