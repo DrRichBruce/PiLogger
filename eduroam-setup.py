@@ -2,6 +2,7 @@
 
 import os
 import subprocess
+import time
 
 def setup_eduroam():
     # Download the certificate
@@ -39,4 +40,7 @@ network={{
 
 # Restart the network and then reboot the Raspberry Pi
 os.system("sudo wpa_cli -i wlan0 reconfigure")
+
+import time
+time.sleep(5)
 os.system("sudo reboot")
