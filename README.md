@@ -142,7 +142,7 @@ Planned enhancements include:
 
 ## Author
 
-**Richard Bruce**
+**Dr Richard Bruce**
 
 Research Project Officer  
 Bristol Veterinary School
