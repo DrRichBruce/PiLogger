@@ -1,6 +1,6 @@
-# BVSPiLogger
+# Pi Environmental Datalogger
 
-**BV**iLogger** is a Raspberry Pi-based environmental monitoring platform designed for automated sensor deployment, environmental data collection, and long-term data logging.
+**Pi Environmental Datalogger** is a Raspberry Pi-based environmental monitoring platform designed for automated sensor deployment, environmental data collection, and long-term data logging.
 
 Built around the Pimoroni WeatherHAT ecosystem, the platform enables researchers, educators, and hobbyists to rapidly deploy low-cost environmental monitoring systems capable of recording temperature, humidity, pressure, and light measurements.
 
